@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   layout "admin"
-  skip_before_filter :login_required
   
   def index
     @users = User.find(:all)

@@ -1,14 +1,34 @@
+#container {
+	background: #EEEEEE;
+	padding: 10px 0 10px 0;
+	border: 1px dotted #000000;
+}
+
+#top_row {
+	width: 95%;
+	background: #B4E48F;
+	position: relative;
+	float: top;
+	margin: 0 10px 0 -10px;
+	padding: 10px 10px 10px 10px;
+	font-size: 24px;
+	border: 5px double #FFFFFF;
+}
+
 #left_column {
 	width: 395px;
+	height: 100%;
 	position: relative;
 	float: left;
 	padding: 10px 10px 10px 10px;
 }
 
 #right_column {
+	width: 550px;
 	position: relative;
-	float: left;
+	float: right;
 	text-align: left;
+	font-size: 18px;
 	padding: 10px 10px 10px 10px;
 }
 
@@ -34,20 +54,11 @@ img {
 	bottom-border-width: 0;
 }
 
-#brief {
-	float: top;
-}
-
-#details {
-	float: top;
-}
-
-#description {
-	float: top;
-}
-
-#title {
-	float: top;
+#heading {
+	width: 90%; 
+	font-size: 18px;
+	font-weight: bold;
+	margin: 0 10px 0 0;
 }
 
 .img-shadow {
@@ -61,8 +72,8 @@ img {
 .img-shadow img {
   display: block;
   position: relative;
-  background-color: #fff;
-  border: 1px solid #a9a9a9;
+  background-color: #FFFFFF;
+  border: 1px solid #A9A9A9;
   margin: -6px 6px 6px -6px;
   padding: 4px;
 }
@@ -84,11 +95,17 @@ img {
 }
 
 .p-shadow p {
-  color: #777;
+/*  color: #777; */
+	color: #A52A2A;
   background-color: #fff;
   font: italic 1em georgia, serif;
   border: 1px solid #a9a9a9;
   padding: 4px;
   margin: -6px 6px 6px -6px !important;
   margin: 0;
+}
+
+p {
+	padding: 10px 0 0 15px;
+	line-height: 1.25;
 }

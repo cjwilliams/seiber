@@ -2,19 +2,21 @@
 function swap(target, fname) {
 	document[target].src = fname;
 }
-function caption(target, text) {
-	document[target] = text
-}
 </script>
-
 <%= stylesheet_link_tag "public" %>
 
-<div>
+<div id="container">
+	<div id="top_row">
+		<%= h @property.address %><br />			
+	</div>
+	
+	<div style="clear:both"></div>
+	
 	<div id="left_column">
 		<% if @property.no_photos? %>
 			<div class="img-shadow">
 				<%= image_tag '../images/small/nophoto.jpg' %>
-			<div class="img-shadow">
+			</div>
 		<% else %>
 			<div class="img-shadow">
 				<img id="main_image" name='large' src="<%= @photos[0].item.url(:public) %>">
@@ -24,42 +26,50 @@ function caption(target, text) {
 			<% end %>
 		<% end %>
 	</div>
+	
 	<div id="right_column">
-		<div id="brief">
-			<%= h @property.address %><br />
-			<%= h @property.number_beds %>BD/<%= h @property.number_baths %>BA<br />			
-	
+		<div id="heading" class="p-shadow"><p>Info</p></div>
+		<p>
 			<% if @property.rental? %>
-				<b>Rent:</b>&nbsp;<%= h number_to_currency(@property.monthly_rent) %><br />
-				<b>Security Deposit:</b>&nbsp;<%= h number_to_currency(@property.deposit) %><br />
+				<b>Rent:</b> <%= h number_to_currency(@property.monthly_rent) %><br />
+				<b>Security Deposit:</b> <%= h number_to_currency(@property.deposit) %><br />
 			<% elsif @property.sale? %>
-				<b>MLS #: </b><%= h @property.mls_number %><br />
-				<b>List Price: </b><%= h number_to_currency(@property.listing_price) %><br />
-			<% end %>			
-		</div>
+				<b>MLS #:</b> <%= h @property.mls_number %><br />
+				<b>List Price:</b> <%= h number_to_currency(@property.listing_price) %><br />
+			<% end %>
+		</p>			
 
-		<div id="details">
-				Available: <%= h @property.available_date.strftime("%B %d, %Y") %><br />
-				Lease Terms: <%#= link_to @property.lease_type.name, lease_type_path(@property.lease_type) %><br />
-		
-				Bedrooms: <%= h @property.number_beds %><br />
-				Bathrooms: <%= h @property.number_baths %><br />
-				Square Feet: <%= h @property.square_feet %><br />
-		</div>
+		<div id="heading" class="p-shadow"><p>Details</p></div>
+		<p>
+			<b>Available:</b> <%= h @property.available_date.strftime("%B %e, %Y") %><br />
+		</p>
+		<p>
+			<b>Bedrooms:</b> <%= h @property.number_beds %><br />
+			<b>Bathrooms:</b> <%= h @property.number_baths %><br />
+		</p>
+		<p>
+			<b>Square Feet:</b> <%= h @property.square_feet %><br />
+		</p>
+
+		<div id="heading" class="p-shadow"><p>Description</p></div><br />
+			<p>
+				<% if @property.full_description.nil? %>
+					None Available
+				<% else %>
+					<%= h @property.full_description %>
+				<% end %>
+			</p>
 	
-		<div id="description"><%= h @property.full_description %></div>
-	
-		<div id="title">Additional Property Features:</div>
-			<ul>
-				<% if @property.garage %><li>Garage</li><% end %>
-				<% if @property.yard %><li>Private Yard</li><% end %>
-				<% if @property.laundry %><li>Washer/Dryer</li><% end %>
-			</ul>
-		</div>
+		<div id="heading" class="p-shadow"><p>Additional Features</p></div><br />
+		<p>
+			<% if @property.yard %>&raquo; Yard<br /><% end %>
+			<% if @property.laundry %>&raquo; Laundry<br /><% end %>
+			<% if @property.garage %>&raquo; Garage<br /><% end %>
+		</p>
 	</div>
 	<div style="clear:both"></div>
 </div>
-<div style="clear:both">
+<div style="clear:both"></div>
 
 
 
