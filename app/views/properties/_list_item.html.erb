@@ -1,0 +1,32 @@
+<%= stylesheet_link_tag "properties" %>
+
+<div id="container">
+	<div id="thumbnail">
+		<% if list_item.no_photos? %>
+			<%= link_to image_tag('../images/thumb/nophoto.jpg'), public_property_path(list_item) %>
+		<% else %>
+			<%= link_to image_tag(Photo.find(:first, :conditions => {:property_id => list_item}).item.url(:thumb)), public_property_path(list_item) %>
+		<% end %>
+	</div>
+	<a href="<%= public_property_path(list_item) %>">
+	<div id="text">
+		<div id="details">
+			<%= h list_item.address_line_1 %><br />
+			<%= h list_item.address_line_2 %><br />
+			
+			<br />
+			<%= h list_item.number_beds %> Bedrooms, <%= h list_item.number_baths %> Bathrooms
+		</div>
+		<div id="rent">
+			<% if list_item.rental? %>
+				<b>Rent:</b>&nbsp;<%= h number_to_currency(list_item.monthly_rent) %><br />
+				<b>Deposit:</b>&nbsp;<%= h number_to_currency(list_item.deposit) %>
+			<% elsif list_item.sale? %>
+				<b>MLS #: </b><%= h list_item.mls_number %><br />
+				<b>List Price: </b><%= h number_to_currency(list_item.listing_price) %><br />
+			<% end %>
+		</div>
+	</div>
+	</a>
+	<div style="clear: both"></div>
+</div>

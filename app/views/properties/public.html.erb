@@ -1,0 +1,65 @@
+<script type='text/javascript'>
+function swap(target, fname) {
+	document[target].src = fname;
+}
+function caption(target, text) {
+	document[target] = text
+}
+</script>
+
+<%= stylesheet_link_tag "public" %>
+
+<div>
+	<div id="left_column">
+		<% if @property.no_photos? %>
+			<div class="img-shadow">
+				<%= image_tag '../images/small/nophoto.jpg' %>
+			<div class="img-shadow">
+		<% else %>
+			<div class="img-shadow">
+				<img id="main_image" name='large' src="<%= @photos[0].item.url(:public) %>">
+			</div>
+			<% @photos.each do |photo| %>
+				<a href="#" onClick="swap('large', '<%= photo.item.url(:public) %>');return false;"><img id="thumbnail" name='none' src="<%= photo.item.url(:mini) %>" title="<%= h photo.caption %>"></a>
+			<% end %>
+		<% end %>
+	</div>
+	<div id="right_column">
+		<div id="brief">
+			<%= h @property.address %><br />
+			<%= h @property.number_beds %>BD/<%= h @property.number_baths %>BA<br />			
+	
+			<% if @property.rental? %>
+				<b>Rent:</b>&nbsp;<%= h number_to_currency(@property.monthly_rent) %><br />
+				<b>Security Deposit:</b>&nbsp;<%= h number_to_currency(@property.deposit) %><br />
+			<% elsif @property.sale? %>
+				<b>MLS #: </b><%= h @property.mls_number %><br />
+				<b>List Price: </b><%= h number_to_currency(@property.listing_price) %><br />
+			<% end %>			
+		</div>
+
+		<div id="details">
+				Available: <%= h @property.available_date.strftime("%B %d, %Y") %><br />
+				Lease Terms: <%#= link_to @property.lease_type.name, lease_type_path(@property.lease_type) %><br />
+		
+				Bedrooms: <%= h @property.number_beds %><br />
+				Bathrooms: <%= h @property.number_baths %><br />
+				Square Feet: <%= h @property.square_feet %><br />
+		</div>
+	
+		<div id="description"><%= h @property.full_description %></div>
+	
+		<div id="title">Additional Property Features:</div>
+			<ul>
+				<% if @property.garage %><li>Garage</li><% end %>
+				<% if @property.yard %><li>Private Yard</li><% end %>
+				<% if @property.laundry %><li>Washer/Dryer</li><% end %>
+			</ul>
+		</div>
+	</div>
+	<div style="clear:both"></div>
+</div>
+<div style="clear:both">
+
+
+

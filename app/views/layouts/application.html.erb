@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<title>Seiber Properties</title>
+
+	<%= stylesheet_link_tag "application" %>
+</head>
+<body onload="initialize()" bgcolor="#A52A2A">
+	<div id="wrapper">
+		<div id="header">
+			<%= render :partial => "layouts/header" %>
+		</div>
+		
+		<%= render :partial => "layouts/navbar" %>
+		
+		<center>
+			<div id="main">
+				<%= yield %>
+			</div>
+		</center>
+		
+		<div id="footer">
+			<%= render :partial => "layouts/footer" %>
+		</div>
+	</div>
+		
+	<div id="credits">
+		<%= render :partial => "layouts/credits" %>
+	</div>
+
+<!-- Google Analytics Code -->
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	try {
+		var pageTracker = _gat._getTracker("UA-7838165-1");
+		pageTracker._trackPageview();
+	}
+	catch(err) {}
+</script>
+<!-- Google Analytics Code -->
+
+</body>
+</html>

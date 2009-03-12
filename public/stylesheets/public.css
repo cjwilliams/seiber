@@ -1,0 +1,94 @@
+#left_column {
+	width: 395px;
+	position: relative;
+	float: left;
+	padding: 10px 10px 10px 10px;
+}
+
+#right_column {
+	position: relative;
+	float: left;
+	text-align: left;
+	padding: 10px 10px 10px 10px;
+}
+
+#main_image {
+	position: relative;
+	float: top;
+	width: 375px;
+	height: 250px;
+}
+
+#thumbnail {
+	position: relative;
+	float: top;
+	margin: 4px 2px;
+	border: 1px solid #a9a9a9;
+	text-decoration: none;
+	width: 75px;
+	height: 75px;
+}
+
+img {
+	border: 0;
+	bottom-border-width: 0;
+}
+
+#brief {
+	float: top;
+}
+
+#details {
+	float: top;
+}
+
+#description {
+	float: top;
+}
+
+#title {
+	float: top;
+}
+
+.img-shadow {
+  float:left;
+  background: url(../images/shadowAlpha.png) no-repeat bottom right !important;
+  background: url(../images/sshadow.gif) no-repeat bottom right;
+  margin: 10px 0 0 10px !important;
+  margin: 10px 0 0 5px;
+}
+
+.img-shadow img {
+  display: block;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #a9a9a9;
+  margin: -6px 6px 6px -6px;
+  padding: 4px;
+}
+
+.p-shadow {
+  width: 90%;
+  float:left;
+  background: url(../images/shadowAlpha.png) no-repeat bottom right !important;
+  background: url(../images/shadow.gif) no-repeat bottom right;
+  margin: 10px 0 0 10px !important;
+  margin: 10px 0 0 5px;
+}
+
+.p-shadow div {
+  background: none !important;
+  background: url(../images/shadow2.gif) no-repeat left top;
+  padding: 0 !important;
+  padding: 0 6px 6px 0;
+}
+
+.p-shadow p {
+  color: #777;
+  background-color: #fff;
+  font: italic 1em georgia, serif;
+  border: 1px solid #a9a9a9;
+  padding: 4px;
+  margin: -6px 6px 6px -6px !important;
+  margin: 0;
+}

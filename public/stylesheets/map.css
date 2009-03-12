@@ -1,0 +1,12 @@
+#photo {
+	position: relative;
+	float: left;
+}
+
+#details {
+	position: relative;
+	float:left;
+	padding: 10px 10px 10px 10px;
+	font-size: 14px;
+	line-height: 1.25;
+}
