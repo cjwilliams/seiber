@@ -1,21 +1,29 @@
 class Property < ActiveRecord::Base
-  validates_presence_of :number_address, :street_address, :city, :state, :zip_code
-  validates_numericality_of :number_address, :zip_code
+  validates_presence_of :street_address, :city, :state, :zip_code
+  validates_numericality_of :zip_code
   
   has_many :photos
   
   acts_as_mappable :auto_geocode => {:field => :address, :error_message => "Could not geocode address"}
   
   def address
-    "#{self.number_address} #{self.street_address} ##{self.unit_number}, #{self.city}, #{self.state} #{self.zip_code}"
+    "#{self.street_address}#{self.unit}, #{self.city}, #{self.state} #{self.zip_code}"
   end
   
   def address_line_1
-    "#{self.number_address} #{self.street_address} ##{self.unit_number}"
+    "#{self.street_address}#{self.unit}"
   end
   
   def address_line_2
     "#{self.city}, #{self.state} #{self.zip_code}"
+  end
+  
+  def unit
+    if self.unit_number.nil?
+      return ""
+    else
+      return" ##{self.unit_number}"
+    end
   end
   
   def rental?

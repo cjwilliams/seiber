@@ -7,7 +7,7 @@ class PropertiesController < ApplicationController
   active_scaffold :property do |config|
     config.columns.exclude :lat, :lng
     
-    config.list.columns = [:address, :available_date, :type,
+    config.list.columns = [:address, :available_date, :type, :availability,
                             :number_beds, :number_baths,
                             :monthly_rent, :deposit]
     
@@ -31,11 +31,11 @@ class PropertiesController < ApplicationController
     end
     
     config.create.columns.add_subgroup "Address" do |address_group|
-      address_group.add :number_address, :street_address, :unit_number, :city, :state, :zip_code
+      address_group.add :street_address, :unit_number, :city, :state, :zip_code
     end
     
     config.update.columns.add_subgroup "Address" do |address_group|
-      address_group.add :number_address, :street_address, :unit_number, :city, :state, :zip_code
+      address_group.add :street_address, :unit_number, :city, :state, :zip_code
     end
     
     config.create.columns.add_subgroup "Rental Data" do |rental_group|
@@ -72,7 +72,7 @@ class PropertiesController < ApplicationController
   end
 
   def index
-    @properties = Property.find(:all)
+    @properties = Property.find(:all, :conditions => {:availability => "Available"})
     @map_center = MultiGeocoder.geocode('Davis, CA')
     render :layout => "application"
   end
@@ -86,12 +86,12 @@ class PropertiesController < ApplicationController
   end
   
   def rental
-    @rentals = Rental.find(:all, :conditions => {:availability => "Available"}, :order => "number_address ASC, unit_number ASC")
+    @rentals = Rental.find(:all, :conditions => {:availability => "Available"}, :order => "street_address ASC, unit_number ASC")
     render :layout => "application"
   end
   
   def sale
-    @sales = Sale.find(:all, :conditions => {:availability => "Available"}, :order => "number_address ASC, unit_number ASC")
+    @sales = Sale.find(:all, :conditions => {:availability => "Available"}, :order => "street_address ASC, unit_number ASC")
     render :layout => "application"
   end
 end

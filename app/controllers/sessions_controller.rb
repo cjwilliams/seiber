@@ -1,6 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
-  skip_before_filter :login_required
+  skip_before_filter :login_required, :except => [:dashboard]
   
   def new
   end
@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-      redirect_back_or_default('/dashboard')
+      redirect_to :action => :dashboard
       flash[:notice] = "Logged in successfully"
     else
       render :action => 'new'
@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default('/')
+    redirect_to root_path
   end
   
   def dashboard
