@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :properties, :has_many => :photos, :active_scaffold => :true
   map.resources :photos, :belongs_to => :property, :active_scaffold => :true
   map.resources :pages, :active_scaffold => :true
+  map.resources :emails, :belongs_to => :property
   
   map.rental_properties 'public/properties/rental', :controller => 'properties', :action => 'rental'
   map.sale_properties 'public/properties/sale', :controller => 'properties', :action => 'sale'

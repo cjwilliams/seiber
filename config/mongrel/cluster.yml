@@ -1,0 +1,10 @@
+--- 
+user: app_seiber
+group: app_seiber
+cwd: /opt/apps/seiber/current
+log_file: /opt/apps/seiber/shared/log/mongrel.log
+port: "8000"
+environment: production
+address: 127.0.0.1
+pid_file: /opt/apps/seiber/shared/pids/mongrel.pid
+servers: 2

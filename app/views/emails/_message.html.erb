@@ -1,0 +1,25 @@
+<%= stylesheet_link_tag "message" %>
+
+<div id="container">
+	<a href="<%= email_path(message) %>">
+	<div id="text">
+		<div id="contact_info">
+			<%= h message.contact_name %><br />
+			<%= h message.contact_email %><br />
+		</div>
+		<div id="details">
+			<%= h message.subject %> | <%= h message.property %><br />
+			<%= h message.created_at.strftime("%m %e, %Y") %><br />
+		</div>
+		<div id="actions">
+			<% if message.read? %>
+				<%= link_to "Mark as Unread", :action => :mark_unread, :id => message %> | 
+			<% else %>
+				<%= link_to "Mark as Read", :action => :mark_read, :id => message %> | 
+			<% end %>
+			<%= link_to "Delete", email_path(message), :method => :delete %>
+		</div>
+	</div>
+	</a>
+	<div style="clear: both"></div>
+</div>

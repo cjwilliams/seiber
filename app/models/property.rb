@@ -2,7 +2,7 @@ class Property < ActiveRecord::Base
   validates_presence_of :street_address, :city, :state, :zip_code
   validates_numericality_of :zip_code
   
-  has_many :photos
+  has_many :photos #, :emails
   
   acts_as_mappable :auto_geocode => {:field => :address, :error_message => "Could not geocode address"}
   

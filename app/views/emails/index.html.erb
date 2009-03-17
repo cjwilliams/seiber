@@ -1,0 +1,4 @@
+<h1>Inbox</h1>
+
+<%= link_to "Sent Mail", :action => :sent %>
+<%= render :partial => "message", :collection => @emails %>

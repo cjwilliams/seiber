@@ -3,6 +3,30 @@ function swap(target, fname) {
 	document[target].src = fname;
 }
 </script>
+
+<script src="http://maps.google.com/maps?file=api&v=2&key=<%= GeoKit::Geocoders::google %>" type="text/javascript"></script>
+<script type="text/javascript">
+    function createMarker(point,html) {
+        var marker = new GMarker(point);
+        GEvent.addListener(marker, "click", function() {
+         marker.openInfoWindowHtml(html);
+         });
+        return marker;
+    }
+
+    function initialize() {
+        var map = new GMap2(document.getElementById("map"),
+				  { size: new GSize(300,200) } );
+				map.setCenter(new GLatLng(<%= @property.lat %>,<%= @property.lng %>), 14);
+				var mapControl = new GMapTypeControl();
+				
+				var point = new GPoint(<%= @property[:lng] %>,<%= @property[:lat] %>);
+				var marker = createMarker(point, 
+												'<div></div>')
+				map.addOverlay(marker);
+    }    
+</script>
+
 <%= stylesheet_link_tag "public" %>
 
 <div id="container">
@@ -47,11 +71,15 @@ function swap(target, fname) {
 			<b>Bedrooms:</b> <%= h @property.number_beds %><br />
 			<b>Bathrooms:</b> <%= h @property.number_baths %><br />
 		</p>
+		
+		<% if @property.square_feet != nil %>
 		<p>
-			<b>Square Feet:</b> <%= h @property.square_feet %><br />
+				<b>Square Feet:</b> <%= h @property.square_feet %><br />
 		</p>
-
+		<% end %>
+		
 		<div id="heading" class="p-shadow"><p>Description</p></div><br />
+			<div id="description">
 			<p>
 				<% if @property.full_description.nil? %>
 					None Available
@@ -59,14 +87,21 @@ function swap(target, fname) {
 					<%= h @property.full_description %>
 				<% end %>
 			</p>
-	
+			</div>
+			
 		<div id="heading" class="p-shadow"><p>Additional Features</p></div><br />
 		<p>
 			<% if @property.yard %>&raquo; Yard<br /><% end %>
 			<% if @property.laundry %>&raquo; Laundry<br /><% end %>
 			<% if @property.garage %>&raquo; Garage<br /><% end %>
 		</p>
+		
+		<div id="heading" class="p-shadow"><p>Map & Directions</p></div><br />
+		<p>
+			<div id="map"></div>
+		</p>
 	</div>
+	
 	<div style="clear:both"></div>
 </div>
 <div style="clear:both"></div>

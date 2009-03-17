@@ -61,6 +61,10 @@ img {
 	margin: 0 10px 0 0;
 }
 
+#description {
+	width: 90%;
+}
+
 .img-shadow {
   float:left;
   background: url(../images/shadowAlpha.png) no-repeat bottom right !important;

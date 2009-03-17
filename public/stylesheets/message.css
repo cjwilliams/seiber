@@ -1,0 +1,32 @@
+#container {
+	width: 81%;
+	background: #EEEEEE;
+	border: 1px solid #000000;
+	margin: 15px auto;
+	padding: 10px 10px 10px 10px;
+}
+
+#text {
+	padding: 10px 10px 10px 10px;
+	position: relative;
+	font-size: 16px;
+	text-align: left;
+	vertical-align: middle;
+	line-height: 1;
+	color: #000000;
+}
+
+#contact_info {
+	width: 27%;
+	float: left;
+}
+
+#details {
+	width: 27%;
+	float: left;
+}
+
+#actions {
+	width: 27%;
+	float: right;
+}

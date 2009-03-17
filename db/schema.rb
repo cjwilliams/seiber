@@ -9,7 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090306130651) do
+ActiveRecord::Schema.define(:version => 20090313122508) do
+
+  create_table "emails", :force => true do |t|
+    t.string   "contact_name"
+    t.string   "phone_number"
+    t.string   "contact_email"
+    t.string   "subject"
+    t.string   "body"
+    t.string   "property_id"
+    t.boolean  "read",          :default => false
+    t.boolean  "replied",       :default => false
+    t.boolean  "sent"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "pages", :force => true do |t|
     t.string   "title"
@@ -30,9 +44,8 @@ ActiveRecord::Schema.define(:version => 20090306130651) do
   end
 
   create_table "properties", :force => true do |t|
-    t.integer  "number_address"
     t.string   "street_address"
-    t.integer  "unit_number"
+    t.string   "unit_number"
     t.string   "city"
     t.string   "state"
     t.integer  "zip_code"
