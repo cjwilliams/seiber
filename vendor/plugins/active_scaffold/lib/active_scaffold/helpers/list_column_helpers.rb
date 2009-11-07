@@ -52,21 +52,28 @@ module ActiveScaffold
       # TODO: we need to distinguish between the automatic links *we* create and the ones that the dev specified. some logic may not apply if the dev specified the link.
       def render_list_column(text, column, record)
         if column.link
-          link = column.link.clone
+          link = column.link
           if column.singular_association? and column_empty?(text)
             column_model = column.association.klass
             controller_actions = active_scaffold_config_for(column_model).actions
             if controller_actions.include?(:create) and column.actions_for_association_links.include? :new and column_model.authorized_for?(:action => :create)
+              link = link.clone
               link.action = 'new'
               link.crud_type = :create
               text = as_(:create_new)
+              authorized = true
+            else
+              authorized = false
             end
+          else
+            associated = record.send(column.association.name)
+            authorized = associated.authorized_for?(:action => link.crud_type)
           end
-          return "<a class='disabled'>#{text}</a>" unless record.authorized_for?(:action => column.link.crud_type)
+          return "<a class='disabled'>#{text}</a>" unless authorized
 
           url_options = params_for(:action => nil, :id => record.id, :link => text)
-          if column.singular_association? and column.link.action != 'nested'
-            if associated = record.send(column.association.name)
+          if column.singular_association? and link.action != 'nested'
+            if associated
               url_options[:id] = associated.id
             elsif link.action == 'new'
               url_options.delete :id
@@ -107,7 +114,7 @@ module ActiveScaffold
           id_options = {:id => record.id.to_s, :action => 'update_column', :name => column.name.to_s}
           tag_options = {:tag => "span", :id => element_cell_id(id_options), :class => "in_place_editor_field"}
           script = remote_function(:method => 'POST', :url => {:controller => params_for[:controller], :action => "update_column", :column => column.name, :id => record.id.to_s, :value => !column_value, :eid => params[:eid]})
-          content_tag(:span, check_box_tag(tag_options[:id], 1, checked, {:onchange => script}) , tag_options)
+          content_tag(:span, check_box_tag(tag_options[:id], 1, checked, {:onclick => script}) , tag_options)
         else
           check_box_tag(nil, 1, checked, :disabled => true)
         end

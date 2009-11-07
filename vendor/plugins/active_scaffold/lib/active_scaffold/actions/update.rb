@@ -34,7 +34,7 @@ module ActiveScaffold::Actions
               if successful?
                 render :action => 'on_update', :layout => false
               else
-                render :action => 'form_messages.rjs', :layout => false
+                render :action => 'form_messages_on_update.rjs', :layout => false
               end
             end
           else # just a regular post
@@ -93,7 +93,9 @@ module ActiveScaffold::Actions
     def do_update_column
       @record = find_if_allowed(params[:id], :update)
       if @record.authorized_for?(:action => :update, :column => params[:column])
-        @record.update_attributes(params[:column] => params[:value])
+        params[:value] ||= @record.column_for_attribute(params[:column]).default unless @record.column_for_attribute(params[:column]).null
+        @record.send("#{params[:column]}=", params[:value])
+        @record.save
       end
     end
 
