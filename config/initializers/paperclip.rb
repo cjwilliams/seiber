@@ -1,1 +1,1 @@
-Paperclip.options[:command_path] = "/usr/local/bin"
+Paperclip.options[:command_path] = IMAGE_MAGICK_PATH
