@@ -1,7 +1,7 @@
 module PropertiesHelper
   def available_date_form_column(record, name)
-    date_select(:record, :available_date, :name => name, :order=>[:month,:day,:year],
-                :start_year=>Time.now.year)
+    date_select(:record, :available_date, :name => name, :order => [:month, :day, :year],
+                :start_year => Time.now.year)
   end
   
   def availability_form_column(record, name)

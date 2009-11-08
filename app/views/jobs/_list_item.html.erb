@@ -1,0 +1,23 @@
+<%= stylesheet_link_tag "properties" %>
+
+<div id="container">
+	<a href="<%= public_job_path(list_item) %>">
+	<div id="text">
+		<div id="details">
+			<%= h list_item.title %><br />
+			
+			<br />
+			<%= h number_to_currency(list_item.start_pay) %>/hr - <%= h number_to_currency(list_item.end_pay) %>/hr<br />
+		</div>
+		<div id="rent">
+			<b>Start Date:</b>&nbsp;<%= h list_item.start_date %><br />
+			<% if list_item.work_term == "Part Time" %>
+				<b>End Date:</b>&nbsp;Ongoing
+			<% else %>
+				<b>End Date:</b>&nbsp;<%= h list_item.end_date %>
+			<% end %>
+		</div>
+	</div>
+	</a>
+	<div style="clear: both"></div>
+</div>

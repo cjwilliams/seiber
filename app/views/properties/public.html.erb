@@ -55,8 +55,8 @@ function swap(target, fname) {
 				<b>Rent:</b> <%= h number_to_currency(@property.monthly_rent) %><br />
 				<b>Security Deposit:</b> <%= h number_to_currency(@property.deposit) %><br />
 			<% elsif @property.sale? %>
-				<b>MLS #:</b> <%= h @property.mls_number %><br />
-				<b>List Price:</b> <%= h number_to_currency(@property.listing_price) %><br />
+				<b>MLS&nbsp;#:</b> <%= h @property.mls_number %><br />
+				<b>Listing Price:</b> <%= h number_to_currency(@property.listing_price) %><br />
 			<% end %>
 		</p>			
 

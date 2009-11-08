@@ -8,7 +8,8 @@ class Photo < ActiveRecord::Base
       :styles => {:mini => "75x75#",
                   :thumb => "100x100#",
                   :public => "400x300"
-                 }
-                  
+                 },
+      :url => "/:attachment/:id/:style/:filename"                    
+      
   belongs_to :property
 end

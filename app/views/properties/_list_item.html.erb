@@ -22,8 +22,8 @@
 				<b>Rent:</b>&nbsp;<%= h number_to_currency(list_item.monthly_rent) %><br />
 				<b>Deposit:</b>&nbsp;<%= h number_to_currency(list_item.deposit) %>
 			<% elsif list_item.sale? %>
-				<b>MLS #: </b><%= h list_item.mls_number %><br />
-				<b>List Price: </b><%= h number_to_currency(list_item.listing_price) %><br />
+				<b>MLS&nbsp;#:</b>&nbsp;<%= h list_item.mls_number %><br />
+				<b>List Price:</b>&nbsp;<br /><%= h number_to_currency(list_item.listing_price) %>
 			<% end %>
 		</div>
 	</div>
