@@ -19,6 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :properties, :has_many => :photos, :active_scaffold => :true
   map.resources :photos, :belongs_to => :property, :active_scaffold => :true
+  map.resources :jobs, :active_scaffold => :true
   map.resources :pages, :active_scaffold => :true
   map.resources :emails, :belongs_to => :property
   
@@ -26,6 +27,8 @@ ActionController::Routing::Routes.draw do |map|
   map.sale_properties 'public/properties/sale', :controller => 'properties', :action => 'sale'
   map.public_property 'public/properties/:id', :controller => 'properties', :action => 'public'
   map.public_photo 'public/photos/:id', :controller => 'photos', :action => 'public'
+  map.jobs 'public/jobs/index', :controller => 'jobs', :action => 'index'
+  map.public_job 'public/jobs/:id', :controller => 'jobs', :action => 'public'
   
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
