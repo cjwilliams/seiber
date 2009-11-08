@@ -1,5 +1,4 @@
 # Be sure to restart your server when you modify this file
-#IMAGE_MAGICK_PATH = "/usr/local/bin" 
 
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
