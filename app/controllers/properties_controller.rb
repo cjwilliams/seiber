@@ -13,6 +13,7 @@ class PropertiesController < ApplicationController
     config.sti_create_links = :true
 
     config.columns.exclude :lat, :lng
+    config.actions.exclude :show
     
     config.list.columns = [:address, :available_date, :type, :availability,
                             :number_beds, :number_baths,

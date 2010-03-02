@@ -3,6 +3,8 @@ class PhotosController < ApplicationController
   layout "admin", :except => [:index, :public]
   
   active_scaffold :photos do |config|
+      config.actions.exclude :show
+      
       config.create.multipart = true
       config.update.multipart = true
       config.columns.exclude :item_file_size, :item_file_name, :item_content_type, :item_updated_at
