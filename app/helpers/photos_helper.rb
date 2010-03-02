@@ -7,7 +7,16 @@ module PhotosHelper
     image_tag photo.item.url(:thumb)
   end
   
-  def property_id_form_column(record, address)
-    select(:record, :property_id, :address => address, :id => id)
+  def property_id_form_column(record, input_name)
+#    select(:record, :property_id, :address => address, :id => id)
+    select(:record, :property_id, Property.all.collect {|p| [ p.name, p.id ] }, {:include_blank => 'None'})
+  end
+  
+  def property_id_column(record)
+    if record.property_id.blank?
+      ""
+    else
+      h(Property.find(record.property_id).name)
+    end
   end
 end

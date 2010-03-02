@@ -7,8 +7,4 @@ module PropertiesHelper
   def availability_form_column(record, name)
     select(:record, :availability, ["Available", "Not Available"], :name => name)
   end
-  
-  def type_form_column(record, name)
-    select(:record, :type, ["Rental", "Sale"], :name => name)
-  end
 end

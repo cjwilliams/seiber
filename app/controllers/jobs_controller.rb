@@ -2,7 +2,7 @@ class JobsController < ApplicationController
   skip_before_filter :login_required, :only => [:index, :public]
   layout "admin", :except => [:index, :public]
   
-  active_scaffold :job do |config|
+  active_scaffold :jobs do |config|
     config.list.columns = [:title, :status, :description, :skills,
                             :start_date, :end_date, :work_term,
                             :start_pay, :end_pay, :notes]

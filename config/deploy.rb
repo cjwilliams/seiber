@@ -2,12 +2,10 @@
 # Required Variables
 # ====================
 set :application, "seiber"
-set :user, "seiber"
 set :domain, "seiberproperties.com"
+set :user, "seiber"
 
 set :rails_env, "production"
-set :mongrel_port, '8000'
-set :mongrel_nodes, 3
 
 # ====================
 # Roles
@@ -16,45 +14,62 @@ role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
 
+
 # ====================
 # Respository
 # ====================
 default_run_options[:pty] = true
-set :repository,  "ssh://git@seiberproperties.com:1027/home/git/seiber.git"
-set :port, '1027'
+
 set :scm, "git"
+set :port, '1027'
+set :repository, "ssh://git@rubydesignstudio.com/home/git/#{user}.git"
 set :branch, "master"
+
 set :scm_username, "git"
 set :scm_password, proc{Capistrano::CLI.password_prompt('Git Password:')}
-set :deploy_via, :remote_cache
-set :git_shallow_clone, 1
+set :git_shallow_clone, true
 
 set :deploy_to, "/home/#{user}"
+set :deploy_via, :remote_cache
 
-set :sudo, "sudo -p Password:"
+set :use_sudo, false
 
-# ========================
-# Mongrel Cluster
-# ========================
+# ====================
+# Phusion Passenger
+# ====================
+# If you are using Passenger mod_rails uncomment this:
+# if you're still using the script/reapear helper you will need
+# these http://github.com/rails/irs_process_scripts
 namespace :deploy do
-  task :start, :roles => :app do
-    run "cd #{current_path} && mongrel_rails cluster::configure -e production -p #{mongrel_port} -N #{mongrel_nodes} -c #{current_path} --user #{user} --group #{user}"
-    run "cd #{current_path} && mongrel_rails cluster::start"
-    
-    run "mkdir -p #{deploy_to}/shared/config"
-    run "mv #{current_path}/config/mongrel_cluster.yml #{deploy_to}/shared/config/mongrel_cluster.yml"
-    run "ln -nsf #{deploy_to}/shared/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml"
-    
-    run "ln -nsf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    run "ln -nsf #{shared_path}/db/production.sqlite3 #{release_path}/db/production.sqlite3"
-    run "ln -nsf #{shared_path}/system/items #{release_path}/public/"
+  desc "Tell Passenger to restart the app."
+  task :restart do
+    run "touch #{current_path}/tmp/restart.txt"
   end
-
-  task :restart, :roles => :app do
-    run "ln -nsf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    run "ln -nsf #{shared_path}/db/production.sqlite3 #{release_path}/db/production.sqlite3"
-    run "ln -nsf #{shared_path}/system/items #{release_path}/public/"
-    run "ln -nsf #{deploy_to}/shared/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml"
-    run "cd #{current_path} && mongrel_rails cluster::restart"
+  
+  desc "Symlink shared configs and folders on each release."
+  task :symlink_shared do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/images #{release_path}/public/images"
+    run "ln -nfs #{shared_path}/db/production.sqlite3 #{release_path}/db/production.sqlite3"
+  end
+  
+  desc "Sync the public/assets directory."
+  task :images do
+    system "rsync -vr --exclude='.DS_Store' public/images #{user}@#{domain}:#{shared_path}/system/"
+  end
+  
+  task :setup_production_database_configuration do
+     database_password = Capistrano::CLI.password_prompt("Production Database password: ")
+     require 'yaml'
+     spec = { "production" => {
+       "adapter" => "sqlite3",
+       "database" => "db/production.sqlite3",
+       "username" => user,
+       "password" => database_password } }
+     run "mkdir -p #{shared_path}/config"
+     put(spec.to_yaml, "#{shared_path}/config/database.yml")
   end
 end
+ 
+after 'deploy:update_code', 'deploy:symlink_shared'
+after "deploy:setup", 'deploy:setup_production_database_configuration'

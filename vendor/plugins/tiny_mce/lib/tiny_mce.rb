@@ -1,40 +1,78 @@
-# The base module we include into ActionController::Base
+# Require all the necessary files to run TinyMCE
+require 'tiny_mce/base'
+require 'tiny_mce/exceptions'
+require 'tiny_mce/configuration'
+require 'tiny_mce/spell_checker'
+require 'tiny_mce/helpers'
+
 module TinyMCE
+  def self.install_or_update_tinymce
+    require 'fileutils'
+    orig = File.join(File.dirname(__FILE__), 'tiny_mce', 'assets', 'tiny_mce')
+    dest = File.join(RAILS_ROOT, 'public', 'javascripts', 'tiny_mce')
+    tiny_mce_js = File.join(dest, 'tiny_mce.js')
 
-  # When this module is included, extend it with the available class methods
-  def self.included(base)
-    base.extend(ClassMethods)
-  end
-
-  module ClassMethods
-
-    # The controller declaration to enable tiny_mce on certain actions.
-    # Takes options hash, raw_options string, and any normal params you
-    # can send to a before_filter (only, except etc)
-    def uses_tiny_mce(options = {})
-      tiny_mce_options = options.delete(:options) || {}
-      raw_tiny_mce_options = options.delete(:raw_options) || ''
-
-      # If the tiny_mce plugins includes the spellchecker, then form a spellchecking path,
-      # add it to the tiny_mce_options, and include the SpellChecking module
-      if !tiny_mce_options[:plugins].blank? && tiny_mce_options[:plugins].include?('spellchecker')
-        tiny_mce_options.reverse_merge!(:spellchecker_rpc_url => "/" + self.controller_name + "/spellchecker")
-        self.class_eval do
-          include TinyMCE::SpellChecker
+    unless File.exists?(tiny_mce_js) && FileUtils.identical?(File.join(orig, 'tiny_mce.js'), tiny_mce_js)
+      if File.exists?(tiny_mce_js)
+        # upgrade
+        begin
+          puts "Removing directory #{dest}..."
+          FileUtils.rm_rf dest
+          puts "Creating directory #{dest}..."
+          FileUtils.mkdir_p dest
+          puts "Copying TinyMCE to #{dest}..."
+          FileUtils.cp_r "#{orig}/.", dest
+          puts "Successfully updated TinyMCE."
+        rescue
+          puts 'ERROR: Problem updating TinyMCE. Please manually copy '
+          puts orig
+          puts 'to'
+          puts dest
+        end
+      else
+        # install
+        begin
+          puts "Creating directory #{dest}..."
+          FileUtils.mkdir_p dest
+          puts "Copying TinyMCE to #{dest}..."
+          FileUtils.cp_r "#{orig}/.", dest
+          puts "Successfully installed TinyMCE."
+        rescue
+          puts "ERROR: Problem installing TinyMCE. Please manually copy "
+          puts orig
+          puts "to"
+          puts dest
         end
       end
-
-      # Set instance vars in the current class
-      proc = Proc.new do |c|
-        c.instance_variable_set(:@tiny_mce_options, tiny_mce_options)
-        c.instance_variable_set(:@raw_tiny_mce_options, raw_tiny_mce_options)
-        c.instance_variable_set(:@uses_tiny_mce, true)
-      end
-
-      # Run the above proc before each page load this method is declared in
-      before_filter(proc, options)
     end
 
+    tiny_mce_yaml_filepath = File.join(RAILS_ROOT, 'config', 'tiny_mce.yml')
+    unless File.exists?(tiny_mce_yaml_filepath)
+      File.open(tiny_mce_yaml_filepath, 'w') do |f|
+        f.puts '# Here you can specify default options for TinyMCE across all controllers'
+        f.puts '#'
+        f.puts '# theme: advanced'
+        f.puts '# plugins:'
+        f.puts '#  - table'
+        f.puts '#  - fullscreen'
+      end
+      puts "Written configuration example to #{tiny_mce_yaml_filepath}"
+    end
   end
 
+  module Base
+    include TinyMCE::SpellChecker
+  end
+end
+
+# Load up the available configuration options (we do it here because
+# the result doesn't, so we don't want to load it per request)
+TinyMCE::Configuration.load_valid_options
+
+# Include the TinyMCE methods and TinyMCE Helpers into ActionController::Base
+
+if defined?(Rails) && defined?(ActionController)
+  ActionController::Base.send(:include, TinyMCE::Base)
+  ActionController::Base.send(:helper, TinyMCE::Helpers)
+  TinyMCE.install_or_update_tinymce
 end

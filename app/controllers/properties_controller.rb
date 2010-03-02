@@ -1,34 +1,34 @@
 class PropertiesController < ApplicationController
   include GeoKit::Geocoders
 
+  uses_tiny_mce
+
   skip_before_filter :login_required, :only => [:index, :public, :rental, :sale]
   layout "admin", :except => [:index, :public, :rental, :sale]
 
   active_scaffold :property do |config|
+    config.label = "Properties"
+    
+    config.sti_children = [:rental, :sale]
+    config.sti_create_links = :true
+
     config.columns.exclude :lat, :lng
     
     config.list.columns = [:address, :available_date, :type, :availability,
                             :number_beds, :number_baths,
-                            :monthly_rent, :deposit]
+                            :monthly_rent, :deposit] 
     
     config.columns[:yard].form_ui = :checkbox
     config.columns[:laundry].form_ui = :checkbox
     config.columns[:garage].form_ui = :checkbox
-    config.columns[:type].form_ui = :select
     config.columns[:availability].form_ui = :select
+    config.columns[:full_description].form_ui = :text_editor
+    
+    
     config.columns[:number_beds].label = "Bedrooms"
     config.columns[:number_baths].label = "Bathrooms"
     
     config.nested.add_link("Photos", [:photos])
-    
-    
-    config.create.columns.add_subgroup "Important" do |important_group|
-      important_group.add :available_date, :type, :availability
-    end
-    
-    config.update.columns.add_subgroup "Important" do |important_group|
-      important_group.add :available_date, :type, :availability
-    end
     
     config.create.columns.add_subgroup "Address" do |address_group|
       address_group.add :street_address, :unit_number, :city, :state, :zip_code

@@ -1,4 +1,5 @@
 body {
+	background: url(../images/cream.gif) center;
 	font-family: Georgia,Times,serif;
 	font-size: 0.8125em;
 	font-size-adjust: none;
@@ -117,10 +118,9 @@ a {
 
 #footer {
 	background: #333333;
-	position: relative;
-	bottom: 0px;
-	width: 100%;
+	width: 1024px;
 	height: 20px;
+	margin: 0 auto;
 	text-align: center;
 }
 

@@ -34,6 +34,10 @@ class Property < ActiveRecord::Base
     self.type == "Sale"
   end
   
+  def name
+    self.address.to_s
+  end
+  
   def no_photos?
     Photo.find(:all, :conditions => {:property_id => self.id}).empty?
   end
