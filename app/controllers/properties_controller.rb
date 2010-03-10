@@ -1,8 +1,6 @@
 class PropertiesController < ApplicationController
   include GeoKit::Geocoders
 
-  skip_before_filter :login_required
-  
   def index
     @properties = Property.find(:all, :conditions => {:availability => "Available"})
     @map_center = MultiGeocoder.geocode('Davis, CA')

@@ -1,6 +1,4 @@
 class PhotosController < ApplicationController 
-  skip_before_filter :login_required
-  
   def index
     @photos = Photo.find(:all)
     render :layout => "application"

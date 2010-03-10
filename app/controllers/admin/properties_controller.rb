@@ -18,6 +18,7 @@ class Admin::PropertiesController < ApplicationController
                             :number_beds, :number_baths,
                             :monthly_rent, :deposit, :listing_price] 
     config.list.sorting = {:type => :asc, :street_address => :asc}
+    config.list.per_page = 20
     
     config.nested.add_link("Photos", [:photos])
 
