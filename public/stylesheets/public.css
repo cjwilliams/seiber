@@ -1,5 +1,6 @@
 #container {
 	background: #EEEEEE;
+	margin: 0 15px;
 	padding: 10px 0 10px 0;
 	border: 1px dotted #000000;
 }
@@ -24,7 +25,7 @@
 }
 
 #right_column {
-	width: 550px;
+	width: 520px;
 	position: relative;
 	float: right;
 	text-align: left;
@@ -36,7 +37,7 @@
 	position: relative;
 	float: top;
 	width: 375px;
-	height: 250px;
+/*	height: 250px; */
 }
 
 #thumbnail {

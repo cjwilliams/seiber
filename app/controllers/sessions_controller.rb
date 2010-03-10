@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-      redirect_to :action => :dashboard
+      redirect_to admin_path
       flash[:notice] = "Logged in successfully"
     else
       render :action => 'new'
@@ -25,9 +25,5 @@ class SessionsController < ApplicationController
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_to root_path
-  end
-  
-  def dashboard
-    render :layout => "admin"
   end
 end

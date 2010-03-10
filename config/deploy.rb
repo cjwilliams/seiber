@@ -55,7 +55,7 @@ namespace :deploy do
   
   desc "Sync the public/assets directory."
   task :images do
-    system "rsync -vr --exclude='.DS_Store' public/images #{user}@#{domain}:#{shared_path}/system/"
+    system "rsync -vr --exclude='.DS_Store' public/images #{user}@#{domain}:#{shared_path}"
   end
   
   task :setup_production_database_configuration do

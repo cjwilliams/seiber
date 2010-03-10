@@ -3,14 +3,13 @@ module PhotosHelper
     file_field :record, :item
   end
 
-  def item_column(photo)
-    image_tag photo.item.url(:thumb)
+  def item_column(record)
+    image_tag record.item.url(:thumb)
   end
   
   def property_id_form_column(record, input_name)
-#    select(:record, :property_id, :address => address, :id => id)
-    select(:record, :property_id, Property.all.collect {|p| [ p.name, p.id ] }, {:include_blank => 'None'})
-  end
+    select(:record, :property_id, Property.all.collect{|p| [p.name, p.id]}, {:include_blank => 'Select One'})
+  end  
   
   def property_id_column(record)
     if record.property_id.blank?

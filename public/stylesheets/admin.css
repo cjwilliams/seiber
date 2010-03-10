@@ -8,12 +8,11 @@
 	font-style: normal;
 	font-variant: normal;
 	font-weight: normal;
-	width: 70%;
 	height: 2.6em;
 	line-height: normal;
 	overflow: hidden;
 	margin: -10px 0 10px 0;
-	padding: 0 25% 0 25%;
+	padding: 0 20% 0 20%;
 }
 
 ul {
@@ -32,7 +31,7 @@ ul {
 	background: transparent url(../images/diamond-black.gif) no-repeat scroll 100% 66%;
 	float: left;
 	margin-right: 5px;
-	padding: 0 23px 0 13px; 
+	padding: 0 13px 0 3px; 
 }
 
 #navbar #last {

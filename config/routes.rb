@@ -8,20 +8,28 @@ ActionController::Routing::Routes.draw do |map|
   # Sample of named route:
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
-  map.login  '/login',  :controller => 'sessions', :action => 'new'
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.admin '/dashboard', :controller => 'sessions', :action => 'dashboard'
-
+  
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   map.resources :products
   map.resources :sessions
-  map.resources :users
   
-  map.resources :properties, :has_many => :photos, :active_scaffold => :true
-  map.resources :photos, :belongs_to => :property, :active_scaffold => :true
-  map.resources :jobs, :active_scaffold => :true
-  map.resources :pages, :active_scaffold => :true
+  map.resources :properties
+  map.resources :photos
+  map.resources :pages
+  map.resources :jobs
   map.resources :emails, :belongs_to => :property
+  
+  map.namespace :admin do |admin|
+    admin.resources :photos, :active_scaffold => :true
+    admin.resources :properties, :active_scaffold => :true
+    admin.resources :pages, :active_scaffold => :true
+    admin.resources :jobs, :active_scaffold => :true
+    admin.resources :users, :active_scaffold => :true
+  end
+  
+  map.login  '/login',  :controller => 'sessions', :action => 'new'
+  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  map.admin '/admin', :controller => 'admin/properties', :action => 'list'
   
   map.rental_properties 'public/properties/rental', :controller => 'properties', :action => 'rental'
   map.sale_properties 'public/properties/sale', :controller => 'properties', :action => 'sale'
