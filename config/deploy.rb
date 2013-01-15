@@ -22,7 +22,7 @@ default_run_options[:pty] = true
 
 set :scm, "git"
 set :port, '1027'
-set :repository, "ssh://git@rubydesignstudio.com/home/git/#{user}.git"
+set :repository, "ssh://git@#{domain}:#{port}/home/git/#{application}.git"
 set :branch, "master"
 
 set :scm_username, "git"
@@ -50,12 +50,20 @@ namespace :deploy do
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/images #{release_path}/public/images"
+    run "ln -nfs #{shared_path}/gems #{release_path}/vendor/gems"
+    run "ln -nfs #{shared_path}/rails #{release_path}/vendor/rails"
     run "ln -nfs #{shared_path}/db/production.sqlite3 #{release_path}/db/production.sqlite3"
   end
   
   desc "Sync the public/assets directory."
   task :images do
-    system "rsync -vr --exclude='.DS_Store' public/images #{user}@#{domain}:#{shared_path}"
+    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' public/images #{user}@#{domain}:#{shared_path}"
+  end
+  
+  desc "Sync the vendored gems directories"
+  task :gems do
+    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' vendor/gems #{user}@#{domain}:#{shared_path}/gems"
+    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' vendor/rails #{user}@#{domain}:#{shared_path}/rails"
   end
   
   task :setup_production_database_configuration do
