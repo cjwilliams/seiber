@@ -28,7 +28,8 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "andre-geokit", :lib=>'geokit', :source => 'http://gems.github.com'
-  config.gem "paperclip"
+  config.gem "paperclip", '~>2.7'
+  config.gem "cocaine"
   
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

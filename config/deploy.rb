@@ -62,8 +62,8 @@ namespace :deploy do
   
   desc "Sync the vendored gems directories"
   task :gems do
-    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' vendor/gems #{user}@#{domain}:#{shared_path}/gems"
-    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' vendor/rails #{user}@#{domain}:#{shared_path}/rails"
+    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' vendor/gems #{user}@#{domain}:#{shared_path}"
+    system "rsync -vr --exclude='.DS_Store' --rsh='ssh -p1027' vendor/rails #{user}@#{domain}:#{shared_path}"
   end
   
   task :setup_production_database_configuration do
